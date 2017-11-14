@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fedepujol.pokedex.PokemonDetailActivity;
@@ -14,24 +15,27 @@ import com.example.fedepujol.pokedex.PokemonDetailFragment;
 import com.example.fedepujol.pokedex.PokemonListActivity;
 import com.example.fedepujol.pokedex.R;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fedepujol on 13/11/17.
  */
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
+    private boolean bool;
     private PokemonListActivity pokemonListActivity;
     private List<Result> pokemonList;
-    private boolean bool;
+    public static Map<String, Result> pokemonListMap = new HashMap<String, Result>();
 
     private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Pokemon item = (Pokemon) view.getTag();
+            Result item = (Result) view.getTag();
             if (bool) {
                 Bundle arguments = new Bundle();
-                arguments.putInt(PokemonDetailFragment.ARG_ITEM_ID, item.getId());
+                arguments.putString(PokemonDetailFragment.ARG_ITEM_ID, item.getName());
                 PokemonDetailFragment fragment = new PokemonDetailFragment();
                 fragment.setArguments(arguments);
                 pokemonListActivity.getSupportFragmentManager().beginTransaction()
@@ -40,7 +44,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
             } else {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, PokemonDetailActivity.class);
-                intent.putExtra(PokemonDetailFragment.ARG_ITEM_ID, item.getId());
+                intent.putExtra(PokemonDetailFragment.ARG_ITEM_ID, item.getName());
 
                 context.startActivity(intent);
             }
@@ -52,6 +56,15 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         this.pokemonListActivity = pokemonListActivity;
         this.pokemonList = pokemonList;
         this.bool = bool;
+        initPokemonMap();
+    }
+
+    private void initPokemonMap(){
+        int i = pokemonList.size();
+
+        for (i -= 1; i >= 0; i--) {
+            pokemonListMap.put(pokemonList.get(i).getName(), pokemonList.get(i));
+        }
     }
 
     @Override
@@ -62,7 +75,23 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public void onBindViewHolder(PokemonAdapter.PokemonViewHolder holder, int position) {
-        holder.pokemonId.setText(pokemonList.get(position).getUrl());
+        /*  Como en la lista de Result, viene una url con el ID del pokemon
+        *   uso el ID y para traer la imagen desde la url correcta
+        */
+        String url = pokemonList.get(position).getUrl();
+        String IMAGE_BASE_URL = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
+        String[] parts = url.split("/");
+        String pokemonId = parts[6];
+
+        if(pokemonId.length() < 2){
+            IMAGE_BASE_URL = IMAGE_BASE_URL + "00" + pokemonId + ".png";
+        } else {
+            IMAGE_BASE_URL = IMAGE_BASE_URL + "0" + pokemonId + ".png";
+        }
+
+        new DownloadImage(holder.pokemonImage).execute(IMAGE_BASE_URL);
+
+        //holder.pokemonImage.setImageURI(Uri.parse(pokemonList.get(position).getUrl()));
         holder.pokemonName.setText(pokemonList.get(position).getName());
 
         holder.itemView.setTag(pokemonList.get(position));
@@ -76,13 +105,14 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     public static class PokemonViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView pokemonId;
+        final ImageView pokemonImage;
         final TextView pokemonName;
 
         public PokemonViewHolder(View itemView) {
             super(itemView);
-            pokemonId = itemView.findViewById(R.id.id_text);
-            pokemonName = itemView.findViewById(R.id.content);
+
+            pokemonImage = itemView.findViewById(R.id.pokemonIcon);
+            pokemonName = itemView.findViewById(R.id.name);
         }
     }
 }

@@ -69,10 +69,6 @@ public class PokemonListActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        /*
-        * Poner Retrofit Aca
-        * Mandar al adapter la List<Pokemon> que se hace cast desde la Call<Pokemon>
-        */
         //recyclerView.setAdapter(new PokemonAdapter(this, DummyContent.ITEMS, mTwoPane));
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

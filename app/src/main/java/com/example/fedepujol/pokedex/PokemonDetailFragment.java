@@ -1,18 +1,16 @@
 package com.example.fedepujol.pokedex;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.fedepujol.pokedex.dummy.DummyContent;
-
-import ar.edu.unsam.pokedex.domain.Pokemon;
 import ar.edu.unsam.pokedex.domain.PokemonAdapter;
+import ar.edu.unsam.pokedex.domain.Result;
 
 /**
  * A fragment representing a single Pokemon detail screen.
@@ -30,7 +28,7 @@ public class PokemonDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private Pokemon mItem;
+    private Result mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -45,7 +43,7 @@ public class PokemonDetailFragment extends Fragment {
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
 
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = PokemonAdapter.pokemonListMap.get(getArguments().getString(ARG_ITEM_ID));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
