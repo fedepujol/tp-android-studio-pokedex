@@ -10,4 +10,4 @@ Aplicacion Pokédex en Android-Studio, que consume servicios RESTFull de [Pokém
 - Master: Usa Retrofit para el consumo del servicio Rest.
 
 #### TO DO:
-[] Repo: Usa un RepoPokemon que genera los datos de Pokémon.
+- [ ] Repo: Usa un RepoPokemon que genera los datos de Pokémon.
