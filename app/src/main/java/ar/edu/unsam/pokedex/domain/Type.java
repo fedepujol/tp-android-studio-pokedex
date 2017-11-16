@@ -1,26 +1,31 @@
 package ar.edu.unsam.pokedex.domain;
 
-/**
- * Created by fedepujol on 14/11/17.
- */
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Type {
-    private String url;
-    private String name;
 
-    public String getUrl() {
-        return url;
+    @SerializedName("slot")
+    @Expose
+    private Integer slot;
+    @SerializedName("type")
+    @Expose
+    private Type_ type;
+
+    public Integer getSlot() {
+        return slot;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setSlot(Integer slot) {
+        this.slot = slot;
     }
 
-    public String getName() {
-        return name;
+    public Type_ getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(Type_ type) {
+        this.type = type;
     }
+
 }

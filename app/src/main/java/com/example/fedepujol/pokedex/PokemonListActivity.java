@@ -1,14 +1,11 @@
 package com.example.fedepujol.pokedex;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -49,15 +46,6 @@ public class PokemonListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         if (findViewById(R.id.pokemon_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -86,7 +74,7 @@ public class PokemonListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response<PokemonFeed> response, Retrofit retrofit) {
                 PokemonFeed data = response.body();
-                recyclerView.setAdapter(new PokemonAdapter(PokemonListActivity.this, data.getResults(), mTwoPane));
+                recyclerView.setAdapter(new PokemonAdapter(getApplicationContext(), data.getResults(), mTwoPane, PokemonListActivity.this));
             }
 
             @Override
