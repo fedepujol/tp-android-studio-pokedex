@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/smartphone"
+        android:icon="@mipmap/pokedex"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/smartphone"
+        android:roundIcon="@mipmap/pokedex_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
