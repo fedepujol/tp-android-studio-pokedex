@@ -23,16 +23,17 @@ public class RepoPokemon {
         return instance;
     }
 
-    public void agregarAMap(List<Result> resultList) {
+    void agregarAMap(List<Result> resultList) {
         for (int i = 0; i < resultList.size(); i++) {
 
-            changePokemonId(resultList.get(i), i);
-            changePokemonName(resultList.get(i));
+            changeResultId(resultList.get(i), i);
+            changeResultName(resultList.get(i));
             pokemonMap.put(resultList.get(i).getName(), resultList.get(i));
         }
     }
 
-    private void changePokemonId(Result result, int position) {
+
+    private void changeResultId(Result result, int position) {
         String idAux;
         if (position < 9) {
             idAux = "00";
@@ -43,7 +44,7 @@ public class RepoPokemon {
         result.setId(idAux + String.valueOf(position + 1));
     }
 
-    private void changePokemonName(Result result){
+    private void changeResultName(Result result) {
         StringBuilder pokemonNameAux = new StringBuilder();
 
         pokemonNameAux.append(result.getName().substring(0, 1).toUpperCase());
@@ -55,5 +56,7 @@ public class RepoPokemon {
     public Result findPokemonByName(String name) {
         return pokemonMap.get(name);
     }
+
+
 
 }

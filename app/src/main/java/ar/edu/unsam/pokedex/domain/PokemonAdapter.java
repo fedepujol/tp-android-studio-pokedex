@@ -2,8 +2,10 @@ package ar.edu.unsam.pokedex.domain;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +32,8 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
     private Context context;
     private List<Result> pokemonList;
     private PokemonListActivity pokemonListActivity;
-    public final View.OnClickListener mOnClickListener = new View.OnClickListener() {
+
+    private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Result item = (Result) view.getTag();
@@ -95,13 +98,13 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         return pokemonList.size();
     }
 
-    public static class PokemonViewHolder extends RecyclerView.ViewHolder {
+    static class PokemonViewHolder extends RecyclerView.ViewHolder {
 
         final ImageView pokemonImage;
         final TextView pokemonName;
         final TextView pokemonId;
 
-        public PokemonViewHolder(View itemView) {
+        PokemonViewHolder(View itemView) {
             super(itemView);
 
             pokemonImage = itemView.findViewById(R.id.pokemon_list_icon);

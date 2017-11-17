@@ -50,6 +50,11 @@ public class PokemonDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        /*
+        * Creo el Retrofit para la llamada al servicio Rest
+        * que tiene los datos del Pokemon
+        */
+
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
@@ -60,7 +65,14 @@ public class PokemonDetailActivity extends AppCompatActivity {
                 .build();
 
         PokemonService pokemonService = retrofit.create(PokemonService.class);
+        /*
+        * Como necesito el ID del Pokemon para traer los datos del Server
+        * Utilizo el ID del Result (primera llamada en PokemonListActivity)
+        * Mediante el nombre del Pokemon que se guarda al seleccionar en
+        * el mOnClickListener en PokemonAdapter en el mapa del fragment.
+        * */
         Result result = RepoPokemon.getInstance().findPokemonByName(getIntent().getStringExtra(PokemonDetailFragment.ARG_ITEM_ID));
+
         Call<PokemonJson> call = pokemonService.getPokemon(result.getId());
 
         call.enqueue(new Callback<PokemonJson>() {
@@ -71,26 +83,37 @@ public class PokemonDetailActivity extends AppCompatActivity {
                 final StringBuilder typesBuilder = new StringBuilder();
 
                 if (savedInstanceState == null) {
-                    // Create the detail fragment and add it to the activity
-                    // using a fragment transaction.
 
                     Bundle arguments = new Bundle();
                     PokemonDetailFragment fragment = new PokemonDetailFragment();
                     String stringExtra = getIntent().getStringExtra(PokemonDetailFragment.ARG_ITEM_ID);
 
+                    /*
+                        Lleno el arguments del PokemonDetailFragment con los datos del Pokemon
+                        obtenidos por la llamada al servicio mediante Retrofit
+                    */
+
                     arguments.putString(PokemonDetailFragment.ARG_ITEM_ID, stringExtra);
                     arguments.putInt("id", pokemon.getId());
-                    arguments.putString("name", pokemon.getName());
 
-                    pokemon.getTypes().forEach((type) ->typesBuilder.append(type.getType().getName() + " "));
+                    /*
+                    * Convierto los String de nombre y tipos del Pokemon
+                    * para que tengan la primera letra en mayuscula.
+                    * charmander -> Charmander
+                    * poison -> Poison.
+                    */
+
+                    String pokemonName = pokemon.getName().substring(0,1).toUpperCase() + pokemon.getName().substring(1);
+                    arguments.putString("name", pokemonName);
+
+                    pokemon.getTypes().forEach((type) -> {
+                                typesBuilder.append(type.getType().getName().substring(0, 1).toUpperCase());
+                                typesBuilder.append(type.getType().getName().substring(1));
+                                typesBuilder.append(" ");
+                            });
                     arguments.putString("types", typesBuilder.toString());
 
-                    for (int i = 0; i < pokemon.getStats().size(); i++) {
-                        Stat_ stat_ = pokemon.getStats().get(i).getStat();
-                        Stat stat = pokemon.getStats().get(i);
-
-                        arguments.putInt(stat_.getName(), stat.getBaseStat());
-                    }
+                    pokemon.getStats().forEach((s) -> arguments.putInt(s.getStat().getName(), s.getBaseStat()));
 
                     fragment.setArguments(arguments);
 

@@ -1,6 +1,7 @@
 package com.example.fedepujol.pokedex;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -78,18 +79,26 @@ public class PokemonDetailFragment extends Fragment {
         TextView pokemonDetailId = rootView.findViewById(R.id.pokemon_detail_id);
         TextView pokemonDetailName = rootView.findViewById(R.id.pokemon_detail_name);
         TextView pokemonDetailTypes = rootView.findViewById(R.id.pokemon_detail_types);
-        TextView pokemonDetailStrength = rootView.findViewById(R.id.pokemon_detail_attack);
-        TextView pokemonDetailSpeed = rootView.findViewById(R.id.pokemon_detail_speed);
+        TextView pokemonDetailAttack = rootView.findViewById(R.id.pokemon_detail_attack);
         TextView pokemonDetailDefense = rootView.findViewById(R.id.pokemon_detail_defense);
+        TextView pokemonDetailSpeed = rootView.findViewById(R.id.pokemon_detail_speed);
         ImageView pokemonIcon = rootView.findViewById(R.id.pokemon_detail_icon);
 
         if (mItem != null) {
             pokemonDetailId.setText("#" + mItem.getId());
             pokemonDetailName.setText(mItem.getName());
             pokemonDetailTypes.setText(mItem.getTypes());
-            pokemonDetailStrength.setText("Fuerza: " + mItem.getSpeed());
-            pokemonDetailSpeed.setText("Velocidad: " + mItem.getAttack());
+
+            /*
+            * Set de color Azul en tipos
+            * */
+            pokemonDetailAttack.setTextColor(Color.BLUE);
+            pokemonDetailDefense.setTextColor(Color.BLUE);
+            pokemonDetailSpeed.setTextColor(Color.BLUE);
+
+            pokemonDetailAttack.setText("Ataque: " + mItem.getAttack());
             pokemonDetailDefense.setText("Defensa: " + mItem.getDefense());
+            pokemonDetailSpeed.setText("Velocidad: " + mItem.getSpeed());
             Picasso
                     .with(rootView.getContext())
                     .load("https://assets.pokemon.com/assets/cms2/img/pokedex/detail/" + mItem.getId() + ".png")
