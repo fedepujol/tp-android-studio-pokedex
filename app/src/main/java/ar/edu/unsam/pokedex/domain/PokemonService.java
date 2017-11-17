@@ -12,6 +12,7 @@ public interface PokemonService {
     @GET("pokemon")
     Call<PokemonFeed> getData();
 
-    @GET("1")
-    Call<Pokemon> getPokemon();
+    @GET("{numeroPokemon}")
+    Call<PokemonJson> getPokemon(@Path("numeroPokemon") String numeroPokemon);
+
 }

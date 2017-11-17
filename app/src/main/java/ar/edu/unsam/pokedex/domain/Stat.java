@@ -8,9 +8,6 @@ public class Stat {
     @SerializedName("stat")
     @Expose
     private Stat_ stat;
-    @SerializedName("effort")
-    @Expose
-    private Integer effort;
     @SerializedName("base_stat")
     @Expose
     private Integer baseStat;
@@ -21,14 +18,6 @@ public class Stat {
 
     public void setStat(Stat_ stat) {
         this.stat = stat;
-    }
-
-    public Integer getEffort() {
-        return effort;
-    }
-
-    public void setEffort(Integer effort) {
-        this.effort = effort;
     }
 
     public Integer getBaseStat() {

@@ -8,18 +8,9 @@ import java.util.List;
  */
 
 public class PokemonFeed {
-    private Integer count;
     private Object previous;
     private List<Result> results = new ArrayList<Result>();
     private String next;
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
 
     public Object getPrevious() {
         return previous;

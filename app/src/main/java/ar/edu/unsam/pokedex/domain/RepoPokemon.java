@@ -1,21 +1,8 @@
 package ar.edu.unsam.pokedex.domain;
 
-import android.util.Log;
-
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by fedepujol on 14/11/17.
@@ -24,8 +11,6 @@ import retrofit.Retrofit;
 public class RepoPokemon {
     private Map<String, Result> pokemonMap = new HashMap<String, Result>();
     private static RepoPokemon instance;
-    private Pokemon pokemonRetrofit;
-    private String BASE_URL = "http://pokeapi.co/api/v2/";
 
     private RepoPokemon() {
 
@@ -69,45 +54,6 @@ public class RepoPokemon {
 
     public Result findPokemonByName(String name) {
         return pokemonMap.get(name);
-    }
-
-
-    public Pokemon pokemonFromResultName(){
-        //Result resultAux = pokemonMap.get(name);
-
-        //Retrofit intent
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        PokemonService pokemonService = retrofit.create(PokemonService.class);
-
-        Call<Pokemon> call = pokemonService.getPokemon();
-        call.enqueue(new Callback<Pokemon>() {
-            @Override
-            public void onResponse(Response<Pokemon> response, Retrofit retrofit) {
-                try {
-                    Pokemon pokemon = response.body();
-                    boolean r = pokemon == null;
-                    Log.e("r", String.valueOf(r));
-                } catch (Exception e){
-                    Log.e("Exception onResponse", e.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                Log.e("Pokemon Service Error: ", t.getMessage());
-            }
-        });
-        //
-
-        return pokemonRetrofit;
     }
 
 }
